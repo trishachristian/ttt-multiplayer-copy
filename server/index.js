@@ -17,10 +17,10 @@ io.on('connection', socket => {
     });
 
     socket.on('click td', clickedArrayIndex => {
-        const updateGameBoardResponse = updateGameBoard(socket.id, clickedArrayIndex);
+        const updatedGameBoardResponse = updateGameBoard(socket.id, clickedArrayIndex);
 
-        if(updateGameBoardResponse.isUpdated) {
-            socket.emit('gameboard update', updateGameBoardResponse.gameBoard);
+        if(updatedGameBoardResponse.isUpdated) {
+            socket.emit('gameboard update', updatedGameBoardResponse);
         }
     });
 });
@@ -44,12 +44,12 @@ const updateGameBoard = (clientId, clickedArrayIndex) => {
     if(idIndex === 0 && db.gameBoard[clickedArrayIndex] === null && db.isXTurn === false) {
         db.gameBoard[clickedArrayIndex] = 'O';
         db.isXTurn = true;
-        return { isUpdated: true, gameBoard: db.gameBoard};
+        return { isUpdated: true, gameBoard: db.gameBoard, nextTurn: 'X'};
     }
     else if(idIndex === 1 && db.gameBoard[clickedArrayIndex] === null && db.isXTurn === true) {
         db.gameBoard[clickedArrayIndex] = 'X';
         db.isXTurn = false;
-        return { isUpdated: true, gameBoard: db.gameBoard};
+        return { isUpdated: true, gameBoard: db.gameBoard, nextTurn: 'O'};
     }
     return { isUpdated: false };
 }
