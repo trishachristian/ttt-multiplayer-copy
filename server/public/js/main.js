@@ -38,7 +38,7 @@ $(() => {
     const renderMessage = () => {
         $('.current-player-turn').text(state.nextTurn);
         if(state.gameComplete) {
-            $('.current-player-display').hide();
+            $('.player-turn-display').hide();
             $('.message').text(state.message);
         }
     }
