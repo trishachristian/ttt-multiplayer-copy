@@ -24,7 +24,6 @@ $(() => {
 
     const updateGameBoard = updatedGameBoard => {
         gameBoard = updatedGameBoard;
-                console.log(gameBoard);
     }
 
     const updateGameBoardOnDom = () => {
