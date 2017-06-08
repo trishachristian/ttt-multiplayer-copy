@@ -1,5 +1,5 @@
 module.exports = {
     players: [],
-    gameBoard: [],
+    gameBoard: [null, null, null, null, null, null, null, null, null],
     isXTurn: false
 }
