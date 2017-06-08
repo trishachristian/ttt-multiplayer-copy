@@ -6,6 +6,9 @@ const port = process.env.PORT || 3000;
 const addPlayerToList = require('./updateDb').addPlayerToList;
 const removePlayerFromList = require('./updateDb').removePlayerFromList;
 const updateGameBoard = require('./updateDb').updateGameBoard;
+const updateGameBoardAndCheckWinner = require('./updateDb').updateGameBoardAndCheckWinner;
+
+const db = require('./db');
 
 app.use(express.static(__dirname + '/public'));
 
@@ -19,11 +22,9 @@ io.on('connection', socket => {
     });
 
     socket.on('click td', clickedArrayIndex => {
-        const updatedGameBoardResponse = updateGameBoard(socket.id, clickedArrayIndex);
+        const updateGameBoardAndCheckWinnerResponse = updateGameBoardAndCheckWinner(socket.id, clickedArrayIndex);
 
-        if(updatedGameBoardResponse.isUpdated) {
-            io.emit('gameboard update', updatedGameBoardResponse);
-        }
+        io.emit('gameboard update', updateGameBoardAndCheckWinnerResponse);
     });
 });
 

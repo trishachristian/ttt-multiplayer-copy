@@ -12,7 +12,17 @@ module.exports.removePlayerFromList = (clientId) => {
     if(idIndex >= 0) db.players.splice(idIndex, 1);
 }
 
-module.exports.updateGameBoard = (clientId, clickedArrayIndex) => {
+module.exports.updateGameBoardAndCheckWinner = (clientId, clickedArrayIndex) => {
+    const updatedGameBoardResponse = updateGameBoard(clientId, clickedArrayIndex);
+
+    if(updatedGameBoardResponse.isUpdated) {
+        const checkWinnerResponse = checkWinner(updatedGameBoardResponse.gameBoard);
+        if(checkWinnerResponse.gameComplete) return checkWinnerResponse;
+    }
+    return updatedGameBoardResponse;
+}
+
+const updateGameBoard = (clientId, clickedArrayIndex) => {
     const idIndex = db.players.indexOf(clientId);
 
     if(idIndex === 0 && db.gameBoard[clickedArrayIndex] === null && db.isXTurn === false) {
@@ -27,3 +37,52 @@ module.exports.updateGameBoard = (clientId, clickedArrayIndex) => {
     }
     return { isUpdated: false };
 }
+
+const checkWinner = gameBoard => {
+    const pattern = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+
+    let i = 0,
+        j = 0,
+        figure = '';
+
+    while(i < 8) {
+        if(j >= 3) {
+            if(figure === 'OOO' || figure === 'XXX') {
+                db.gameComplete = true;
+                db.winnerPattern = pattern[i];
+                db.message = pattern[i][0] + ' wins the game';
+                db.gameBoard = gameBoard;
+                
+                return {
+                    isUpdated: true,
+                    gameComplete: db.gameComplete,
+                    winnerPattern: db.winnerPattern, 
+                    message: db.message,
+                    gameBoard: db.gameBoard
+                };
+            }
+        i++;
+        j = 0;
+        figure = '';
+        }
+    
+        if(i === 8) {
+            if(gameBoard.indexOf(null) === -1) {
+                db.gameComplete = true;
+                message = 'Tie Game';
+                db.gameBoard = gameBoard;
+                return {
+                    isUpdated: true,
+                    gameComplete: db.gameComplete,
+                    message: db.message,
+                    gameBoard: db.gameBoard
+                };
+            }
+            return { gameComplete: false };
+        }
+  
+        figure += gameBoard[pattern[i][j]];
+
+        j++;
+    }
+};
