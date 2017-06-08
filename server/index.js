@@ -10,13 +10,26 @@ app.use(express.static(__dirname + '/public'));
 const io = require('socket.io')(http);
 
 io.on('connection', client => {
-        addPlayerToList(client.id);
+    addPlayerToList(client.id);
+    
+    client.on('disconnect', () => {
+    removePlayerFromList(client.id)
+})
 });
 
-const addPlayerToList = (clientId) => {
+const addPlayerToList = clientId => {
     if(db.players.length > 1) return;
 
     db.players.push(clientId);
+    console.log(db.players)
+}
+
+const removePlayerFromList = (clientId) => {
+    const idIndex = db.players.indexOf(clientId)
+console.log(idIndex)
+    if(idIndex >= 0) db.players.splice(idIndex, 1);
+
+    console.log(db.players)
 }
 
 http.listen(port, function(){
