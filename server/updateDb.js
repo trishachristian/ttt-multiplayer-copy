@@ -50,7 +50,7 @@ const checkWinner = gameBoard => {
             if(figure === 'OOO' || figure === 'XXX') {
                 db.gameComplete = true;
                 db.winnerPattern = pattern[i];
-                db.message = pattern[i][0] + ' wins the game';
+                db.message = figure.slice(0,1) + ' wins the game';
                 db.gameBoard = gameBoard;
                 
                 return {
