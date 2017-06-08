@@ -10,14 +10,11 @@ app.use(express.static(__dirname + '/public'));
 const io = require('socket.io')(http);
 
 io.on('connection', client => {
-    client.on('join', name => {
         addPlayerToList(client.id);
-        console.log(db);
-    })
 });
 
 const addPlayerToList = (clientId) => {
-    if(db.players.length > 2) return;
+    if(db.players.length > 1) return;
 
     db.players.push(clientId);
 }
