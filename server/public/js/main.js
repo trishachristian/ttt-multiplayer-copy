@@ -1,33 +1,50 @@
 $(() => {
     const socket = io();
 
-    let gameBoard = [];
+    let state = {
+        gameComplete: false,
+        message: null,
+        gameBoard: [], 
+        nextTurn: null,
+        winnerPattern: null
+    };
 
     $('td').on('click', event => {
         socket.emit('click td', event.target.id);
     });
 
     socket.on('gameboard update', updatedGameData => {
-        updateDOM(updatedGameData);
+        if(updatedGameData.isUpdated) {
+            updateStateAndRenderDom(updatedGameData);
+        }
     });
 
 
-    const updateDOM = updatedGameBoard => {
-        updatePlayerTurn(updatedGameBoard.nextTurn);
-        updateGameBoard(updatedGameBoard.gameBoard);
-        updateGameBoardOnDom();
+    const updateStateAndRenderDom = updatedGameData => {
+        updateState(updatedGameData);
+        renderUpdatedStateOnDom();
+        renderGameBoardOnDom();
     };
 
-    const updatePlayerTurn = playerTurn => {
-        $('.current-player-turn').text(playerTurn);
+    const updateState = gameData => {
+        state = gameData;
     }
 
-    const updateGameBoard = updatedGameBoard => {
-        gameBoard = updatedGameBoard;
+    const renderUpdatedStateOnDom = () => {
+        renderMessage();
+        renderGameBoardOnDom();
     }
 
-    const updateGameBoardOnDom = () => {
-        gameBoard.map((figure, index) => {
+    const renderMessage = () => {
+        $('.current-player-turn').text(state.nextTurn);
+        if(state.gameComplete) {
+            $('.current-player-display').hide();
+            $('.message').text(state.message);
+        }
+    }
+
+    const renderGameBoardOnDom = () => {
+        state.gameBoard.map((figure, index) => {
             $('#' + index).text(figure);
         });
     }
