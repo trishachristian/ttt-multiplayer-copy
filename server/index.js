@@ -20,7 +20,7 @@ io.on('connection', socket => {
         const updatedGameBoardResponse = updateGameBoard(socket.id, clickedArrayIndex);
 
         if(updatedGameBoardResponse.isUpdated) {
-            socket.emit('gameboard update', updatedGameBoardResponse);
+            io.emit('gameboard update', updatedGameBoardResponse);
         }
     });
 });
