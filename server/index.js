@@ -3,7 +3,9 @@ const app = express();
 const http = require('http').Server(app);
 const port = process.env.PORT || 3000;
 
-const db = require('./db');
+const addPlayerToList = require('./updateDb').addPlayerToList;
+const removePlayerFromList = require('./updateDb').removePlayerFromList;
+const updateGameBoard = require('./updateDb').updateGameBoard;
 
 app.use(express.static(__dirname + '/public'));
 
@@ -24,36 +26,6 @@ io.on('connection', socket => {
         }
     });
 });
-
-
-const addPlayerToList = clientId => {
-    if(db.players.length > 1) return;
-
-    db.players.push(clientId);
-}
-
-const removePlayerFromList = (clientId) => {
-    const idIndex = db.players.indexOf(clientId);
-
-    if(idIndex >= 0) db.players.splice(idIndex, 1);
-}
-
-const updateGameBoard = (clientId, clickedArrayIndex) => {
-    const idIndex = db.players.indexOf(clientId);
-
-    if(idIndex === 0 && db.gameBoard[clickedArrayIndex] === null && db.isXTurn === false) {
-        db.gameBoard[clickedArrayIndex] = 'O';
-        db.isXTurn = true;
-        return { isUpdated: true, gameBoard: db.gameBoard, nextTurn: 'X'};
-    }
-    else if(idIndex === 1 && db.gameBoard[clickedArrayIndex] === null && db.isXTurn === true) {
-        db.gameBoard[clickedArrayIndex] = 'X';
-        db.isXTurn = false;
-        return { isUpdated: true, gameBoard: db.gameBoard, nextTurn: 'O'};
-    }
-    return { isUpdated: false };
-}
-
 
 http.listen(port, function(){
   console.log('listening on *: ' + port);
