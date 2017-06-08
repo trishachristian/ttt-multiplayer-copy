@@ -1,15 +1,35 @@
 $(() => {
     const socket = io();
 
+    let gameBoard = [];
+
     $('td').on('click', event => {
         socket.emit('click td', event.target.id);
     });
 
-    socket.on('gameboard update', updatedGameBoard => {
-        $('.current-player-turn').text(updatedGameBoard.nextTurn);
-        
-        updatedGameBoard.gameBoard.forEach((figure, index) => {
+    socket.on('gameboard update', updatedGameData => {
+        updateDOM(updatedGameData);
+    });
+
+
+    const updateDOM = updatedGameBoard => {
+        updatePlayerTurn(updatedGameBoard.nextTurn);
+        updateGameBoard(updatedGameBoard.gameBoard);
+        updateGameBoardOnDom();
+    };
+
+    const updatePlayerTurn = playerTurn => {
+        $('.current-player-turn').text(playerTurn);
+    }
+
+    const updateGameBoard = updatedGameBoard => {
+        gameBoard = updatedGameBoard;
+                console.log(gameBoard);
+    }
+
+    const updateGameBoardOnDom = () => {
+        gameBoard.map((figure, index) => {
             $('#' + index).text(figure);
         });
-    });
+    }
 });
