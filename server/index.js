@@ -7,6 +7,18 @@ app.use(express.static(__dirname + '/public'));
 
 const io = require('socket.io')(http);
 
+io.on('connection', client => {
+    client.on('join', name => {
+        addPlayerToList(client.id);
+    })
+});
+
+const addPlayerToList = (clientId) {
+    if(db.clientId.length > 2) return;
+    
+    db.clientId.push(clientId);
+}
+
 http.listen(port, function(){
   console.log('listening on *: ' + port);
 });
