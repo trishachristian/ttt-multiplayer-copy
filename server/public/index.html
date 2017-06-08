@@ -7,6 +7,30 @@
         <title>Tic Tac Toe Game</title>
     </head>
     <body>
+        <div class="wrapper">
+        <h2 class="game-title">Tic Tac Toe</h2>
+        <h4 class="player-turn-display">Player <span class="current-player-turn">O</span> make the move</h4>
+        <div class="button">
+            <button class="new-game" type="submit">New Game</button>
+        </div>
+        <table>
+            <tr>
+            <td id="0"></td>
+            <td id="1"></td>
+            <td id="2"></td>
+            </tr>
+            <tr>
+            <td id="3"></td>
+            <td id="4"></td>
+            <td id="5"></td>
+            </tr>
+            <tr>
+            <td id="6"></td>
+            <td id="7"></td>
+            <td id="8"></td>
+            </tr>
+        </table>
+        </div>
         <script src="/socket.io/socket.io.js"></script>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
         <script src="js/main.js"></script>
