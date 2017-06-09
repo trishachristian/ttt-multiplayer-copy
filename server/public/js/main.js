@@ -23,7 +23,6 @@ $(() => {
     const updateStateAndRenderDom = updatedGameData => {
         updateState(updatedGameData);
         renderUpdatedStateOnDom();
-        renderGameBoardOnDom();
     };
 
     const updateState = gameData => {
