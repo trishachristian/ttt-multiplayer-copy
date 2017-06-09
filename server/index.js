@@ -5,7 +5,6 @@ const port = process.env.PORT || 3000;
 
 const addPlayerToList = require('./updateDb').addPlayerToList;
 const removePlayerFromList = require('./updateDb').removePlayerFromList;
-const updateGameBoard = require('./updateDb').updateGameBoard;
 const updateGameBoardAndCheckWinner = require('./updateDb').updateGameBoardAndCheckWinner;
 
 const db = require('./db');
