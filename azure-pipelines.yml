@@ -3,6 +3,10 @@
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
 
+variables:
+  serviceConnectionToAzure: AzureDevOps
+  appName: ttt-mp
+
 trigger:
 - master
 
@@ -26,8 +30,8 @@ inputs:
 
 - task: AzureRmWebAppDeployment@3
   inputs:
-    azureSubscription: '<Azure service connections>'
-    WebAppName: '<Name of web app>'
+    azureSubscription: $(serviceConnectionToAzure)
+    WebAppName: $(appName)
     Package: '$(System.DefaultWorkingDirectory)'
     GenerateWebConfig: true
     WebConfigParameters: '-Handler iisnode -NodeStartFile server.js -appType node'
