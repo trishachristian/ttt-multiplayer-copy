@@ -5,7 +5,7 @@
 
 variables:
   serviceConnectionToAzure: AzureDevOps
-  appName: ttt-mp
+  appName: businessplan1
 
 trigger:
 - master
