@@ -21,7 +21,6 @@ steps:
 
 - script: |
     npm install
-    npm start
   displayName: 'npm install and start'
 
 - task: PublishBuildArtifacts@1
