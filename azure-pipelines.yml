@@ -13,10 +13,11 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
+steps:
 - script: |
     npm install
     npm start
-  displayName: 'npm install and run webpack'
+  displayName: 'npm install and start'
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
