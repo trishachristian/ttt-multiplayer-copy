@@ -15,7 +15,7 @@ pool:
 
 - script: |
     npm install
-    webpack
+    npm start
   displayName: 'npm install and run webpack'
 
 - task: PublishBuildArtifacts@1
