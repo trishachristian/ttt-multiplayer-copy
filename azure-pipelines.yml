@@ -1,8 +1,3 @@
-# Node.js
-# Build a general Node.js project with npm.
-# Add steps that analyze code, save build artifacts, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
-
 variables:
   serviceConnectionToAzure: AzureDevOps
   appName: businesstest1
@@ -16,18 +11,17 @@ pool:
 steps:
 - script: |
     npm install
-    npm start
-  displayName: 'npm install and start'
+  displayName: 'npm install'
 
 - task: PublishBuildArtifacts@1
   displayName: Publish Artifact
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)'
 
-- task: AzureRmWebAppDeployment@3
+- task: AzureRmWebAppDeployment@4
   inputs:
     azureSubscription: $(serviceConnectionToAzure)
     WebAppName: $(appName)
     Package: '$(System.DefaultWorkingDirectory)'
     GenerateWebConfig: true
-    WebConfigParameters: '-Handler iisnode -NodeStartFile server.js -appType node'
+    WebConfigParameters: '-Handler iisnode -NodeStartFile server/index.js -appType node'
