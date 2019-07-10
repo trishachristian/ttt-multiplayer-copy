@@ -18,6 +18,10 @@ steps:
     npm install
   displayName: 'npm install'
 
+- script: |
+    npm test
+  displayName: 'Run Mocha tests'
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(System.DefaultWorkingDirectory)'
