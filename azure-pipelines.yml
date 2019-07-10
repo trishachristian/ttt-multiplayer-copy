@@ -1,6 +1,6 @@
 variables:
   serviceConnectionToAzure: AzureDevOps
-  appName: businessplan1
+  appName: nodejslinxsba
 
 trigger:
 - master
