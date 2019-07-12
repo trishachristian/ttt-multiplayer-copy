@@ -38,3 +38,27 @@ steps:
     Package: '$(System.DefaultWorkingDirectory)'
     GenerateWebConfig: true
     WebConfigParameters: '-Handler iisnode -NodeStartFile server/index.js -appType node'
+
+stages:
+- stage: Test
+  jobs:
+  - job: Test
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    continueOnError: false
+    steps:
+    - script: echo my first build job
+- stage: Deploy
+  jobs:
+    # track deployments on the environment
+  - deployment: DeployWeb
+    pool:
+      vmImage: 'Ubuntu-16.04'
+    # creates an environment if it doesn’t exist
+    environment: 'ttt-multiplayer-copy'
+    strategy:
+      # default deployment strategy
+      runOnce:
+        deploy:
+          steps:
+          - script: echo my first deployment
