@@ -38,12 +38,3 @@ steps:
     Package: '$(System.DefaultWorkingDirectory)'
     GenerateWebConfig: true
     WebConfigParameters: '-Handler iisnode -NodeStartFile server/index.js -appType node'
-
-jobs:
-- job: QA
-  steps:
-  - script: echo hello from QA
-- job: Production
-  dependsOn: QA
-  steps:
-  - script: echo hello from Production
