@@ -26,7 +26,7 @@ describe('Database', () => {
 
     it('should display an "X" for the next turn', () => {
       nextTurnResponse = updateDb.updateGameBoardAndCheckWinner('abcdefg', 8).nextTurn;
-      assert.equal(nextTurnResponse, 'X')
+      assert.equal(nextTurnResponse, 'O')
     });
   });
 });
