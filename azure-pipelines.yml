@@ -1,6 +1,6 @@
 variables:
   serviceConnectionToAzure: SBAITSummit
-  appName: summit-app-1
+  appName: summit-app-0
 
 trigger:
 - master
@@ -10,14 +10,21 @@ pool:
 
 steps:
 - task: NodeTool@0
+  displayName: 'Install Node.js'
   inputs:
     versionSpec: '10.x'
-  displayName: 'Install Node.js'
 
 - script: |
     npm install
   displayName: 'npm install'
-
+  
+- task: Npm@1
+  displayName: 'NPM Security Vulnerability Check'
+  inputs:
+    command: custom
+    verbose: false
+    customCommand: 'audit --registry=https://registry.npmjs.org/'
+    
 - script: |
     npm test
   displayName: 'Run Mocha tests'
@@ -38,4 +45,3 @@ steps:
     Package: '$(System.DefaultWorkingDirectory)'
     GenerateWebConfig: true
     WebConfigParameters: '-Handler iisnode -NodeStartFile server/index.js -appType node'
-    
