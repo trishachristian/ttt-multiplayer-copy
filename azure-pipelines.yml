@@ -1,6 +1,7 @@
 variables:
   serviceConnectionToAzure: SBAITSummit
-  appName: summit-app-0
+  appName: summit-app-4
+  
 
 trigger:
 - master
